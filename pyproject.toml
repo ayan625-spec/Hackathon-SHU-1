@@ -1,0 +1,23 @@
+[project]
+name = "devflow-sentinel"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "aiohttp>=3.13.5",
+    "appwrite>=18.1.0",
+    "bandit>=1.9.4",
+    "fastapi>=0.136.1",
+    "gitpython>=3.1.50",
+    "google-genai>=2.0.1",
+    "httpx>=0.28.1",
+    "pandas>=3.0.3",
+    "plotly>=6.7.0",
+    "pydantic>=2.13.4",
+    "python-dotenv>=1.2.2",
+    "radon>=6.0.1",
+    "semgrep>=1.162.0",
+    "streamlit>=1.57.0",
+    "uvicorn>=0.46.0",
+]
