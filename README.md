@@ -31,3 +31,4 @@ uv run streamlit run frontend/app.py
 - Secret Detection (GitLeaks)
 - AI Insight Generator (Gemini)
 - Interactive Dashboard (Streamlit)
+- Areeb as collaborator
