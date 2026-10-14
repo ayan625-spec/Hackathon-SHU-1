@@ -3,7 +3,7 @@ from appwrite.client import Client
 from appwrite.services.databases import Databases
 import uuid
 import json
-from typing import Dict, Any
+from typing import Any, Dict, cast
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -16,6 +16,7 @@ class AppwriteDatabase:
         self.api_key = os.getenv("APPWRITE_API_KEY")
         self.database_id = os.getenv("APPWRITE_DATABASE_ID")
         self.collection_id = os.getenv("APPWRITE_SCANS_COLLECTION_ID")
+        self.db: Databases | None = None
         
         if self.project_id and self.api_key:
             self.client.set_endpoint(self.endpoint)
@@ -50,7 +51,9 @@ class AppwriteDatabase:
                 "scan_duration": int(scan_data.get("duration", 0))
             }
             
-            result = self.db.create_document(
+            # Appwrite's generated SDK exposes this method as `object` to Pylance.
+            create_document = cast(Any, self.db.create_document)
+            result = create_document(
                 database_id=self.database_id,
                 collection_id=self.collection_id,
                 document_id=document["scan_id"],

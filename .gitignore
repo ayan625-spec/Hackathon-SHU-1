@@ -1,13 +1,30 @@
-# Python-generated files
-__pycache__/
-*.py[oc]
-build/
-dist/
-wheels/
-*.egg-info
-
-# Virtual environments
-.venv
-
-# Environment variables
+# Environment files — NEVER commit these
 .env
+**/.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+.uv/
+uv.lock
+dist/
+build/
+*.egg-info/
+
+# Temp scan artifacts
+/tmp/devflow_*
+/tmp/gitleaks_*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db

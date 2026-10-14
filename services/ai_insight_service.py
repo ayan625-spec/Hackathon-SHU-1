@@ -1,14 +1,33 @@
 import os
 from google import genai
-from typing import List, Dict, Any
+from typing import Dict, Any
 from dotenv import load_dotenv
 
 load_dotenv()
 
+_DEFAULT_MODEL = "gemini-2.0-flash"
+
+
+def _ai_error_message(error: Exception, feature: str) -> str:
+    """Return safe user-facing text without exposing provider request details."""
+    detail = str(error).lower()
+    if "consumer_suspended" in detail or "has been suspended" in detail:
+        return (
+            f"{feature} unavailable: the Google AI key or project is suspended. "
+            "Replace GEMINI_API_KEY with an active key and verify the project's access."
+        )
+    if "permission_denied" in detail or "403" in detail:
+        return (
+            f"{feature} unavailable: Google AI access was denied. "
+            "Check GEMINI_API_KEY and the associated project's API access."
+        )
+    return f"{feature} unavailable: the Google AI request failed. Check the AI configuration."
+
+
 class AIInsightService:
     def __init__(self):
         api_key = os.getenv("GEMINI_API_KEY")
-        self.model = os.getenv("GEMINI_MODEL", "gemini-1.5")
+        self.model = os.getenv("GEMINI_MODEL", _DEFAULT_MODEL)
         if api_key:
             self.client = genai.Client(api_key=api_key)
         else:
@@ -35,7 +54,7 @@ class AIInsightService:
             )
             return response.text if response.text else "AI failed to generate summary."
         except Exception as e:
-            return f"AI Error: {str(e)}"
+            return _ai_error_message(e, "AI insights")
 
     async def generate_remediation(self, finding: Dict[str, Any]) -> str:
         if not self.client:
@@ -58,4 +77,4 @@ class AIInsightService:
             )
             return response.text if response.text else "AI failed to generate remediation."
         except Exception as e:
-            return f"AI Error: {str(e)}"
+            return _ai_error_message(e, "AI remediation")

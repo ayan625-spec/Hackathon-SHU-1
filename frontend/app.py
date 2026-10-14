@@ -2,7 +2,6 @@ import streamlit as st
 import httpx
 import os
 import pandas as pd
-import plotly.express as px
 import plotly.graph_objects as go
 from dotenv import load_dotenv
 
@@ -99,7 +98,7 @@ def main():
                             
                         with col2:
                             st.subheader("AI Executive Summary")
-                            st.markdown(f"<div class='glass-card'>{data['ai_summary']}</div>", unsafe_allow_html=True)
+                            st.markdown(data['ai_summary'])
                         
                         # Metrics Strip
                         m1, m2, m3, m4, m5 = st.columns(5)
